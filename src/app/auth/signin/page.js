@@ -15,7 +15,7 @@ const Signin = async () => {
                     <div className="text-nowrap logo-img text-center d-block m-auto mb-5 w-50">
                       <img src="/images/main-logo.svg" className="main-logo" alt="main-logo" />
                     </div>
-                    <SigninForm />
+                    {/* <SigninForm /> */}
                   </div>
                 </div>
               </div>

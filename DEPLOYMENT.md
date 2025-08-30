@@ -30,8 +30,7 @@ Your D1 database is already configured with:
 Run the database initialization script:
 
 ```bash
-npm run db:init
-```
+it```
 
 This will:
 - Create the `users` table with all required fields
@@ -43,7 +42,7 @@ This will:
 Check if the table was created successfully:
 
 ```bash
-npm run db:execute -- --command="SELECT name FROM sqlite_master WHERE type='table';"
+npm run db:execute -- "SELECT name FROM sqlite_master WHERE type='table';"
 ```
 
 ## Step 3: Environment Configuration
@@ -92,28 +91,28 @@ npm run deploy
 
 ## Database Management
 
-### Access Database Shell
+### Access Database Shell (Local Development)
 
 ```bash
 npm run db:shell
 ```
 
-### Execute Custom Queries
+### Execute Custom Queries (Remote Database)
 
 ```bash
-npm run db:execute -- --command="SELECT * FROM users;"
+npm run db:execute -- "SELECT * FROM users;"
 ```
 
 ### Backup Database
 
 ```bash
-wrangler d1 export imsdashboard-db --output=backup.sql
+npm run db:backup
 ```
 
 ### Restore Database
 
 ```bash
-wrangler d1 execute imsdashboard-db --file=backup.sql
+wrangler d1 execute imsdashboard-db --remote --file=backup.sql
 ```
 
 ## Troubleshooting

@@ -48,6 +48,7 @@
     "start": "next start",
     "db:init": "node scripts/init-db.js",
     "db:shell": "wrangler d1 shell imsdashboard-db",
-    "db:execute": "wrangler d1 execute imsdashboard-db"
+    "db:execute": "wrangler d1 execute imsdashboard-db --remote --command",
+    "db:backup": "wrangler d1 export imsdashboard-db --remote --output=backup.sql"
   }
 }

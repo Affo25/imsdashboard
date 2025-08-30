@@ -11,8 +11,8 @@ console.log('Database ID: 427e0283-4eb2-4430-8111-fff046afbbb2');
 console.log('Database Name: imsdashboard-db');
 
 try {
-  // Execute the schema against the D1 database
-  execSync(`wrangler d1 execute imsdashboard-db --file=${schemaPath}`, {
+  // Execute the schema against the remote D1 database
+  execSync(`wrangler d1 execute imsdashboard-db --remote --file=${schemaPath}`, {
     stdio: 'inherit'
   });
   
@@ -20,7 +20,7 @@ try {
   
   // Verify the table was created
   console.log('🔍 Verifying table creation...');
-  execSync('wrangler d1 execute imsdashboard-db --command="SELECT name FROM sqlite_master WHERE type=\'table\' AND name=\'users\';"', {
+  execSync('wrangler d1 execute imsdashboard-db --remote --command="SELECT name FROM sqlite_master WHERE type=\'table\' AND name=\'users\';"', {
     stdio: 'inherit'
   });
   
