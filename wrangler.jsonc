@@ -11,6 +11,16 @@
     "binding": "ASSETS",
     "directory": ".open-next/assets"
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "imsdashboard-db",
+      "database_id": "427e0283-4eb2-4430-8111-fff046afbbb2"
+    }
+  ],
+  "vars": {
+    "JWT_SECRET": "your-super-secret-jwt-key-for-imsdashboard-2024"
+  },
   "observability": {
     "enabled": true
   },

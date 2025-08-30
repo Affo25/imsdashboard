@@ -1,63 +1,220 @@
-# Next.js Framework Starter
+# IMS Dashboard - Inventory Management System
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/next-starter-template)
+A comprehensive inventory management system built with Next.js, TypeScript, and Cloudflare Workers.
 
-<!-- dash-content-start -->
+## Features
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It's deployed on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+### 🔐 Authentication System
+- JWT-based authentication with secure token management
+- Role-based access control (Admin, User, Manager, Sales, Accounts, Marketing, Development)
+- Password hashing with bcryptjs
+- HTTP-only cookies for secure token storage
 
-This template uses [OpenNext](https://opennext.js.org/) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare), which works by taking the Next.js build output and transforming it, so that it can run in Cloudflare Workers.
+### 👤 User Management
+- Complete user registration with all fields:
+  - **Personal Information**: First Name, Last Name, Email, Phone, Birthday
+  - **Professional Details**: Designation, User Type, Country
+  - **Areas of Expertise**: Dynamic tag-based input system
+  - **Security**: Password with confirmation
+- User profile management
+- User status tracking (Active/Inactive)
 
-<!-- dash-content-end -->
+### 🎨 Modern UI/UX
+- Responsive design with Tailwind CSS
+- Beautiful gradient backgrounds
+- Interactive form elements with icons
+- Loading states and error handling
+- Success notifications
 
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
+### 🛡️ Security Features
+- Input validation and sanitization
+- Email format validation
+- Password strength requirements
+- CSRF protection
+- Secure cookie settings
 
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/next-starter-template
+## Database Schema
+
+The user table includes all necessary fields for comprehensive user management:
+
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT,
+    designation TEXT,
+    type TEXT NOT NULL DEFAULT 'user',
+    country TEXT,
+    areas TEXT, -- JSON string for areas array
+    phone TEXT,
+    status TEXT NOT NULL DEFAULT 'active',
+    avatar TEXT,
+    birthday TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 ```
-
-A live public deployment of this template is available at [https://next-starter-template.templates.workers.dev](https://next-starter-template.templates.workers.dev)
 
 ## Getting Started
 
-First, run:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Cloudflare account (for deployment)
 
+### Installation
+
+1. Clone the repository:
 ```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
+git clone <repository-url>
+cd imsdashboard
 ```
 
-Then run the development server (using the package manager of your choice):
+2. Install dependencies:
+```bash
+npm install
+```
 
+3. Set up environment variables:
+```bash
+# Create .env.local file
+JWT_SECRET=your-secret-key-here
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## User Registration
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Complete User Registration Form
 
-## Deploying To Production
+The registration form includes all user fields:
 
-| Command                           | Action                                       |
-| :-------------------------------- | :------------------------------------------- |
-| `npm run build`                   | Build your production site                   |
-| `npm run preview`                 | Preview your build locally, before deploying |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare    |
-| `npm wrangler tail`               | View real-time logs for all Workers          |
+1. **Personal Information**
+   - First Name (required)
+   - Last Name
+   - Email Address (required)
+   - Phone Number
+   - Birthday
 
-## Learn More
+2. **Professional Information**
+   - Designation/Job Title
+   - User Type (dropdown with all roles)
+   - Country
 
-To learn more about Next.js, take a look at the following resources:
+3. **Areas of Expertise**
+   - Dynamic tag input system
+   - Press Enter to add areas
+   - Click × to remove areas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Security**
+   - Password (minimum 6 characters)
+   - Confirm Password
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### User Types Available
+- **User**: Basic access
+- **Admin**: Full system access
+- **Manager**: Management-level access
+- **Sales**: Sales-specific features
+- **Accounts**: Financial access
+- **Marketing**: Marketing tools access
+- **Development**: Technical features access
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `GET /api/auth/me` - Get current user
+
+### Request/Response Examples
+
+#### Register User
+```json
+POST /api/auth/register
+{
+  "email": "user@example.com",
+  "password": "securepassword123",
+  "first_name": "John",
+  "last_name": "Doe",
+  "designation": "Software Engineer",
+  "type": "user",
+  "country": "United States",
+  "areas": ["JavaScript", "React", "Node.js"],
+  "phone": "+1-555-0123",
+  "birthday": "1990-01-01"
+}
+```
+
+#### Login User
+```json
+POST /api/auth/login
+{
+  "email": "user@example.com",
+  "password": "securepassword123"
+}
+```
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/auth/          # Authentication API routes
+│   ├── dashboard/         # Dashboard pages
+│   ├── login/            # Login page
+│   ├── register/         # Registration page
+│   └── layout.tsx        # Root layout
+├── components/
+│   └── DashboardLayout.tsx # Dashboard layout component
+├── contexts/
+│   └── AuthContext.tsx   # Authentication context
+├── lib/
+│   ├── db.ts            # Database operations
+│   └── jwt.ts           # JWT utilities
+└── middleware.ts        # Route protection middleware
+```
+
+## Deployment
+
+### Cloudflare Workers
+This project is configured for Cloudflare Workers deployment:
+
+```bash
+npm run deploy
+```
+
+### Environment Variables for Production
+- `JWT_SECRET`: Secure random string for JWT signing
+- Database configuration (Cloudflare D1)
+
+## Security Considerations
+
+1. **Password Security**: Passwords are hashed using bcryptjs with 12 salt rounds
+2. **JWT Security**: Tokens are stored in HTTP-only cookies
+3. **Input Validation**: All user inputs are validated and sanitized
+4. **Role-based Access**: Middleware protects routes based on user roles
+5. **CSRF Protection**: Built-in protection against CSRF attacks
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Support
+
+For support and questions, please open an issue in the repository.
