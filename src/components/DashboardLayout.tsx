@@ -123,13 +123,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   );
 }
 
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  current: boolean;
+}
+
+interface User {
+  name?: string;
+  role?: string;
+  first_name?: string;
+  last_name?: string;
+}
+
 function SidebarContent({ 
   navigation, 
   user, 
   onLogout 
 }: { 
-  navigation: any[], 
-  user: any, 
+  navigation: NavigationItem[], 
+  user: User, 
   onLogout: () => void 
 }) {
   return (

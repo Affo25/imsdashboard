@@ -28,8 +28,6 @@ export default function RootLayout({
       <head>
         <title>IMS</title>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="stylesheet" href="/css/styles.css" />
-        <link rel="stylesheet" href="/css/custom.css" />
         <link rel="icon" href="/images/favicon.png" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

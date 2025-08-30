@@ -93,11 +93,12 @@ export async function createUser(userData: CreateUserData): Promise<User> {
     };
 
     return user;
-  } catch (error: any) {
-    if (error.message?.includes('UNIQUE constraint failed')) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create user';
+    if (errorMessage.includes('UNIQUE constraint failed')) {
       throw new DatabaseError('Email already exists');
     }
-    throw new DatabaseError(error.message || 'Failed to create user');
+    throw new DatabaseError(errorMessage);
   }
 }
 
@@ -122,7 +123,7 @@ export async function authenticateUser(credentials: LoginCredentials): Promise<U
     }
 
     // Return user without password, parse areas JSON
-    const { password, ...userWithoutPassword } = user;
+    const { password: _, ...userWithoutPassword } = user;
     return {
       ...userWithoutPassword,
       areas: user.areas ? JSON.parse(user.areas) : undefined

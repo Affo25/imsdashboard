@@ -53,7 +53,7 @@ export function middleware(request: NextRequest) {
 
   // Check role permissions
   const requiredRoles = protectedRoutes[protectedRoute as keyof typeof protectedRoutes];
-  if (!requiredRoles.includes(payload.type as any)) {
+  if (!requiredRoles.includes(payload.type as 'admin' | 'user' | 'manager' | 'sales' | 'accounts' | 'marketing' | 'development')) {
     return NextResponse.json(
       { error: 'Insufficient permissions' },
       { status: 403 }
